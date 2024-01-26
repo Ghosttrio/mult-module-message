@@ -1,0 +1,6 @@
+rootProject.name = 'message-test'
+include 'server-chat'
+include 'server-a'
+include 'server-b'
+include 'core'
+

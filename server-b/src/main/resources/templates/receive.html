@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>받은 메시지 표시하는 페이지</title>
+</head>
+<body>
+<h1>받은 메시지</h1>
+<div id="chat"></div>
+</body>
+<script th:src="@{https://code.jquery.com/jquery-1.11.0.min.js}"></script>
+<script src="/js/chat/sockjs.min.js"></script>
+<script src="/js/chat/stomp.min.js"></script>
+<script>
+    var socket = new SockJS('http://localhost:8083/ws');
+    var stompClient = Stomp.over(socket);
+    stompClient.connect(
+        {},
+        function () {
+            stompClient.subscribe("/sub/1", onMessage);
+        },
+        function () {
+            console.log("에러 발생")
+        }
+    );
+
+    function onMessage(payload) {
+        var message = JSON.parse(payload.body);
+        $('#chat').append(
+            '<div>' + message.message + '</div>'
+        )
+    }
+
+</script>
+</html>
